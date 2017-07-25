@@ -1,0 +1,25 @@
+# Environment deps.
+/.env
+
+# IDEs
+/nbproject
+/.idea
+
+# WIKIs
+/wiki
+
+# Vendors
+/vendor
+
+# Temp dirs & trash
+/temp
+/tmp
+.DS_Store
+
+# etc.
+/processed
+/output
+/samples
+/.vagrant
+npm-debug.log
+

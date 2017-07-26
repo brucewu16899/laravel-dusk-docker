@@ -57,6 +57,9 @@ ADD supervisord.conf /etc/supervisor/supervisord.conf
 
 
 
+
+VOLUME [ "/var/log/supervisor" ]
+EXPOSE 5900
+#ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 RUN apt-get -yqq clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 

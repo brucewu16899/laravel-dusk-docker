@@ -5,6 +5,9 @@ LABEL Description="Container for running laravel/dusk test" Vendor="Tarampampam"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
+ENV DISPLAY :99
+ENV SCREEN_RESOLUTION 1280x720x24
+ENV CHROMEDRIVER_PORT 9515
 
 RUN \
   apt-get -yq update && apt-get -yq upgrade -o Dpkg::Options::="--force-confold" \
@@ -31,12 +34,29 @@ RUN \
   && php /tmp/composer-setup.php --filename=composer --install-dir=$COMPOSER_HOME \
   && $COMPOSER_HOME/composer --no-interaction global require 'hirak/prestissimo'
 
+ADD xvfb.init.sh /etc/init.d/xvfb
+RUN \
+  apt-get install -yq xvfb gconf2 fonts-ipafont-gothic xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base \
+    xfonts-scalable \
+  && chmod +x /etc/init.d/xvfb \
+  && CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` \
+  && mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION \
+  && curl -sS -o /tmp/chromedriver_linux64.zip \
+    http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip \
+  && unzip -qq /tmp/chromedriver_linux64.zip -d /opt/chromedriver-$CHROMEDRIVER_VERSION \
+  && rm /tmp/chromedriver_linux64.zip \
+  && chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver \
+  && ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver \
+  && curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get -yqq update && apt-get -yqq install google-chrome-stable x11vnc
 
-
-
-
+RUN \
+  apt-get install -y supervisor
+ADD supervisord.conf /etc/supervisor/supervisord.conf
 
 
 
 RUN apt-get -yqq clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 

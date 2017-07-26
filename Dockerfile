@@ -58,5 +58,5 @@ ADD supervisord.conf /etc/supervisor/supervisord.conf
 
 
 RUN apt-get -yqq clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 

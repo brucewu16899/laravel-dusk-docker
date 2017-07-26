@@ -12,7 +12,7 @@ ENV CHROMEDRIVER_PORT 9515
 RUN \
   apt-get -yq update && apt-get -yq upgrade -o Dpkg::Options::="--force-confold" \
   && apt-get -yq install --no-install-recommends apt-utils lsb-release apt-transport-https curl zip unzip bzip2 \
-    git ca-certificates
+    git ca-certificates net-tools
 
 RUN \
   curl -o /etc/apt/trusted.gpg.d/php.gpg  https://packages.sury.org/php/apt.gpg \

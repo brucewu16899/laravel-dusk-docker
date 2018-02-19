@@ -17,8 +17,11 @@ RUN \
 RUN \
   curl -o /etc/apt/trusted.gpg.d/php.gpg  https://packages.sury.org/php/apt.gpg \
   && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list \
-  && apt-get update && apt-get -yq install php7.1 php7.1-xml php7.1-zip php7.1-curl php7.1-bcmath php7.1-json \
-    php7.1-mbstring php7.1-pgsql php7.1-mcrypt php7.1-xdebug php7.1-imagick imagemagick \
+
+  && apt-get -yq update && apt-get install -y php7.1-common php7.1-cli php7.1-xml php7.1-zip php7.1-curl php7.1-bcmath \
+    php7.1-json php7.1-mbstring php7.1-pgsql php7.1-mcrypt php7.1-redis php7.1-sqlite3 php7.1-mysql php7.1-gd \
+    php7.1-xdebug php7.1-imagick imagemagick \
+  && update-alternatives --set php $(which php7.1) \
   && echo -e "\nxdebug.profiler_enable=0\nxdebug.remote_enable=0\n" >> /etc/php/7.1/mods-available/xdebug.ini
 
 ENV COMPOSER_HOME /usr/local/share/composer

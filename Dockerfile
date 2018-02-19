@@ -51,15 +51,12 @@ RUN \
   && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
   && apt-get -yqq update && apt-get -yqq install google-chrome-stable x11vnc
 
-RUN \
-  apt-get install -y supervisor
+RUN apt-get install -y supervisor
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 
+VOLUME ["/var/log/supervisor"]
 
-
-
-VOLUME [ "/var/log/supervisor" ]
 EXPOSE 5900
+
 #ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 RUN apt-get -yqq clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-

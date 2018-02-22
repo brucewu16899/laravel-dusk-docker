@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="logo" src="https://hsto.org/webt/x9/2l/_g/x92l_ghsud0eavfxf9niqd7z978.png" width="70"  height="70" />
+  <img alt="logo" src="https://hsto.org/webt/x9/2l/_g/x92l_ghsud0eavfxf9niqd7z978.png" width="70" height="70" />
 </p>
 
 # Docker image `laravel-dusk-docker`
@@ -11,13 +11,15 @@
 
 ### What is this?
 
-This is docker image, built for running `unit` and `browser` tests, using `Laravel v5.5.* - v5.6.*` and above with package `laravel/dusk`.
+This is docker image, built for running `unit` and `browser` tests, using `v5.6.*` and above with package `laravel/dusk`.
 
 Optimized for running with CI _(tested with **GitLab CI**)_.
 
 ### How can I use this shit?
 
 Very simple - just setup to use `docker` executor with image `tarampampam/laravel-dusk-docker` in your CI configuration. For more details read the `Dockerfile`.
+
+Supported ENV variables declared in the `./docker-compose.yml`.
 
 #### License
 

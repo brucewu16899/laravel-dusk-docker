@@ -5,9 +5,6 @@ LABEL Description="Container for running laravel/dusk test" Vendor="Tarampampam"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
-ENV DISPLAY :99
-ENV SCREEN_RESOLUTION 1280x720x24
-ENV CHROMEDRIVER_PORT 9515
 
 RUN \
   apt-get -yq update && apt-get -yq upgrade -o Dpkg::Options::="--force-confold" \
@@ -17,12 +14,10 @@ RUN \
 RUN \
   curl -o /etc/apt/trusted.gpg.d/php.gpg  https://packages.sury.org/php/apt.gpg \
   && echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list \
-
   && apt-get -yq update && apt-get install -y php7.1-common php7.1-cli php7.1-xml php7.1-zip php7.1-curl php7.1-bcmath \
     php7.1-json php7.1-mbstring php7.1-pgsql php7.1-mcrypt php7.1-redis php7.1-sqlite3 php7.1-mysql php7.1-gd \
-    php7.1-xdebug php7.1-imagick imagemagick \
-  && update-alternatives --set php $(which php7.1) \
-  && echo -e "\nxdebug.profiler_enable=0\nxdebug.remote_enable=0\n" >> /etc/php/7.1/mods-available/xdebug.ini
+    php7.1-imagick imagemagick \
+  && update-alternatives --set php $(which php7.1)
 
 ENV COMPOSER_HOME /usr/local/share/composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -57,9 +52,13 @@ RUN \
 RUN apt-get install -y supervisor
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 
-VOLUME ["/var/log/supervisor"]
+# Copy entypoint script
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 
-EXPOSE 5900
+RUN chmod -v +x /*.sh && apt-get -yqq clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
-RUN apt-get -yqq clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+EXPOSE 9515
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

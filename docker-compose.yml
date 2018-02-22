@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  xvfb-php71-composer:
+    container_name: xvfb-php71-composer
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DISPLAY_NUM: 99
+      SCREEN_WIDTH: 1440
+      SCREEN_HEIGHT: 900
+      CHROMEDRIVER_PORT: 9515
+    ports:
+      - 9515:9515

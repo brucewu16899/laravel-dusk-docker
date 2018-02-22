@@ -9,8 +9,11 @@
 # Short-Description: Stop/start Xvfb
 ### END INIT INFO
 
+DISPLAY_NUM="${DISPLAY_NUM:-99}";
+SCREEN_RESOLUTION="${SCREEN_RESOLUTION:-1440x900x24}";
+
 XVFB=/usr/bin/Xvfb
-XVFBARGS="$DISPLAY -screen 0 $SCREEN_RESOLUTION -ac +extension GLX +render -noreset";
+XVFBARGS=":$DISPLAY_NUM -screen 0 $SCREEN_RESOLUTION -ac +extension GLX +render -noreset";
 PIDFILE='/var/run/xvfb.pid';
 
 case "$1" in

@@ -15,6 +15,19 @@ This is docker image, built for running `unit` and `browser` tests, using `v5.6.
 
 Optimized for running with CI _(tested with **GitLab CI**)_.
 
+Supported tags:
+
+Tag name | Details | Full image name | Dockerfile
+:------: | :-----: | :-------------: | :--------:
+`latest` | ![Size][badge_size_latest] | `tarampampam/laravel-dusk-docker:latest` | [link][dockerfile_latest]
+`php72`  | ![Size][badge_size_php7_2] | `tarampampam/laravel-dusk-docker:php72`  | [link][dockerfile_php7_2]
+
+[badge_size_latest]:https://images.microbadger.com/badges/image/tarampampam/laravel-dusk-docker.svg
+[badge_size_php7_2]:https://images.microbadger.com/badges/image/tarampampam/laravel-dusk-docker:php72.svg
+
+[dockerfile_latest]:https://github.com/tarampampam/laravel-dusk-docker/blob/master/Dockerfile
+[dockerfile_php7_2]:https://github.com/tarampampam/laravel-dusk-docker/blob/master/Dockerfile.php72
+
 ### How can I use this shit?
 
 Very simple - just setup to use `docker` executor with image `tarampampam/laravel-dusk-docker` in your CI configuration. For more details read the `Dockerfile`.
